@@ -13,7 +13,7 @@ const accessChat = asyncHandler(async (req, res) => {
     return res.sendStatus(400);
   }
 
-    // to find the chat involving both the users
+  // to find the chat involving both the users
   var isChat = await Chat.find({
     isGroupChat: false,
     $and: [
@@ -112,6 +112,8 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
+
+
 // @desc    Rename Group
 // @route   PUT /api/chat/rename
 // @access  Protected
@@ -137,7 +139,6 @@ const renameGroup = asyncHandler(async (req, res) => {
     res.json(updatedChat);
   }
 });
-
 
 // @desc    Add user to Group / Leave
 // @route   PUT /api/chat/groupadd
@@ -195,4 +196,11 @@ const removeFromGroup = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { accessChat,fetchChats,createGroupChat,renameGroup, addToGroup,removeFromGroup};
+module.exports = {
+  accessChat,
+  fetchChats,
+  createGroupChat,
+  renameGroup,
+  addToGroup,
+  removeFromGroup,
+};
