@@ -3,7 +3,7 @@ import { Button, IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalCon
 
 const ProfileModal = ({ user, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  // console.log(user.pic);
   return (
     <>
       {children ? (
@@ -32,7 +32,7 @@ const ProfileModal = ({ user, children }) => {
             <Image
               borderRadius="full"
               boxSize="150px"
-              src={user.pic}
+              src={user.pic?user.pic:"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"}
               alt={user.name}
             />
             <Text

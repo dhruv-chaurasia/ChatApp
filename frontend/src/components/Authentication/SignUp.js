@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom"; 
+import { ChatState } from "../../Context/ChatProvider";
 
 const SignUp = () => {
   const [show, setShow] = useState(false);
@@ -22,7 +23,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const history = useHistory();
-
+  const { setUser } = ChatState();
   const handleClick = () => setShow(!show);
 
   const postDetails = (pics) => {
@@ -94,7 +95,7 @@ const SignUp = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    // console.log(name, email, password, pic);
     try {
       const config = {
         headers: {
@@ -111,7 +112,7 @@ const SignUp = () => {
         },
         config
       );
-      console.log(data);
+      // console.log(data);
       toast({
         title: "Registration Successful",
         status: "success",
@@ -119,6 +120,8 @@ const SignUp = () => {
         isClosable: true,
         position: "bottom",
       });
+      console.log(data);
+      setUser(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       history.push("/chats");

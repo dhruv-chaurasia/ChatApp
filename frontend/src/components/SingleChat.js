@@ -9,7 +9,7 @@ import axios from "axios";
 import "./style.css";
 import ScrollableChat from "./ScrollableChat";
 import io from 'socket.io-client';
-import Lottie from "lottie-react";
+import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
 
 const ENDPOINT = "http://localhost:5000";
@@ -27,7 +27,6 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
   const [isTyping, setIsTyping] = useState(false);
   const { user, selectedChat, setSelectedChat,notification,setNotification } = ChatState();
   const toast = useToast();
-
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -113,7 +112,7 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
 
   useEffect(() => {
     fetchMessages();
-
+    setSelectedChat(selectedChat);
     selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
@@ -133,21 +132,51 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
       }
     });
   });
-  let timerLength = 3000;
+  // let timerLength = 3000;
   // console.log(typing);
+
+  // const typingHandler = (e) => {
+  //   setNewMessage(e.target.value);
+
+  //   if (!socketConnected) return;
+    
+  //   if (!typing) {
+  //     setTyping(true);
+  //     socket.emit("typing", selectedChat._id);
+  //   }
+  //   let lastTypingTime = new Date().getTime();
+  //   var timerLength = 3000;
+  //   setTimeout(() => {
+  //     var timeNow = new Date().getTime();
+  //     var timeDiff = timeNow - lastTypingTime;
+  //     if (timeDiff >= timerLength && typing) {
+  //       socket.emit("stop typing", selectedChat._id);
+  //       setTyping(false);
+  //     }
+  //   }, timerLength);
+  // };
+  var myTimeout;
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
 
     if (!socketConnected) return;
-    
-    if (!typing) {
+
+    // if (!typing) {
+    //   setTyping(true);
+    //   socket.emit("typing", selectedChat._id);
+    // }
+    socket.emit("typing", selectedChat._id);
+  
       setTyping(true);
-      socket.emit("typing", selectedChat._id);
-    }
-    setTimeout(() => {
+
+
+    clearTimeout(myTimeout);
+    
+    myTimeout = setTimeout(() => {
       socket.emit("stop typing", selectedChat._id);
-        setTyping(false);
-    }, timerLength);
+      setTyping(false);
+    }, 3000);
+
   };
 
   return (

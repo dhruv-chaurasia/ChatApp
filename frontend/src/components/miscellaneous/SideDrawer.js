@@ -39,11 +39,12 @@ export const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const history = useHistory();
+  const { user,setSelectedChat,chats,setChats,notification,setNotification } = ChatState();
   const logoutHandler = () => {
+    setSelectedChat(null);
     localStorage.removeItem("userInfo");
     history.push("/");
   };
-  const { user,setSelectedChat,chats,setChats,notification,setNotification } = ChatState();
   const toast = useToast();
 
   const handleSearch = async () => {
